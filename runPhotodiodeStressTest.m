@@ -1,4 +1,4 @@
-function runPhotodiodeStressTest(LumDecrement, PhotodiodeSize, debug)
+function runPhotodiodeStressTest(flashIterations, LumDecrement, PhotodiodeSize, debug)
 % This function runs a photodiode stress test: the photodiode is flashed
 % decrementally fast, to see whether the photodiode can keep up with the
 % flashes. We start by flashing it every frame, then every second frame and
@@ -9,6 +9,7 @@ function runPhotodiodeStressTest(LumDecrement, PhotodiodeSize, debug)
 % Date: 28/10/2020
 % -------------------------------------------------------------------------
 % Inputs:
+% - flashIterations: how often should the photodiode be flashed on and off
 % - LumDecrement: coefficient of luminance decrement, number between 0 and
 % 1. If set to 0.25, the photodiode will be presented at 100%, 75%, 50% and
 % 25% successively
@@ -26,23 +27,28 @@ close all
 
 %% Setting things up:
 % Setting global variables:
-global refRate compKbDevice DIOD_SIZE
+global compKbDevice DIOD_SIZE
 addpath .\helperFunctions
 compKbDevice = -1;
 
 % Checking the numbers of inputs and setting defaults if needed:
-if nargin == 3
+if nargin == 4
     DIOD_SIZE = PhotodiodeSize;
+elseif nargin == 3
+    DIOD_SIZE = PhotodiodeSize;
+    debug = 0;
 elseif nargin == 2
     debug = 0;
-    DIOD_SIZE = PhotodiodeSize;
+    DIOD_SIZE = 200;
 elseif nargin == 1
     debug = 0;
     DIOD_SIZE = 200;
+    LumDecrement = 0.25;
 elseif nargin == 0
     debug = 0;
     DIOD_SIZE = 200;
     LumDecrement = 0.25;
+    flashIterations = 1000;
 end
 
 % Computing values of the photodiode luminance according to the number of
@@ -61,9 +67,6 @@ initPTB(debug)
 
 % Setting the messages to the experimenter:
 INTRO_MESSAGE = 'Welcome to the Photodiode stress test! \n Make sure that the photodiode is plugged in \n Make sure that the photodiode covers the photodiode square\n\n Press any key to proceed';
-
-% Setting number of flash iterations:
-flashIterations = ceil(30/(refRate));
 
 % Creating and opening the file where the data will be saved:
 fileID = openLogFile();
