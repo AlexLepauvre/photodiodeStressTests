@@ -43,3 +43,23 @@ While this script varies the luminance of the photodiode square on screen, this 
 equivalent to manually changing the brightness of the screen in the systems settings. It is 
 therefore recommended to repeat this test several times, changing the brightness of the screen 
 in a stepwise fashion
+
+## SOP
+Here is an example of the procedure we followed to test it in our lab:
+
+*Setting up the computer:*
+1. Once the laptop is turned on, hit the windows button and type in "Display settings"
+2. In the display settings, set the "Adjust brightness level" to max (100) 
+3. Open matlab
+
+*Testing the photodiode:*
+1. In matlab, navigate to the directory of the runPhotodiodeStressTest.m
+2. In the command window, type in the following:
+   - runPhotodiodeStressTest(1000, 0.25, 400)
+4. The experiment should start and inform you that you should have the photodiode plugged in and that it should be on top of the photodiode square. 
+5. Hit any button once you made sure 4. is met
+6. Let run the experiment (~12min)
+7. Once the experiment is over, open the display settings again and set the brightness level to 80
+8. Repeat 1. -> 6.
+7. Once the experiment is over, open the display settings again and set the brightness level to 60
+8. Repeat 1. -> 6.
