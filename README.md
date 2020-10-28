@@ -14,7 +14,7 @@
  
 ## How to use:
  Open matlab and in the command window, enter:
- *runPhotodiodeStressTest(LumDecrement, PhotodiodeSize, debug)*
+ - *runPhotodiodeStressTest(LumDecrement, PhotodiodeSize, debug)*
  Parameters:
  - LumDecrement: number between 0 an 1, representing the steps of luminance decrease during
  the test. If set to 0.25, the first block will present photodiode at luminance 100%, second
@@ -29,7 +29,7 @@ be found in the directory ./data
 The table are in the following format:
 
 ### Output csv:
-|Date | EventNumber | Onset | Event|
-| --- | --- | --- | --- |
-|Date of the run | Number of the current event | Timestamp of the photodiode onset | Photodiode status (on or off)|
-| --- | --- | --- | --- |
+|Date | FlipRate | EventNumber | Onset | Event|
+| --- | --- | --- | --- | --- |
+|Date of the run | How often the photodiode is turned on | Number of the current event | Timestamp of the photodiode onset | Photodiode status (on or off)|
+| --- | --- | --- | --- | --- |
