@@ -44,7 +44,7 @@ equivalent to manually changing the brightness of the screen in the systems sett
 therefore recommended to repeat this test several times, changing the brightness of the screen 
 in a stepwise fashion
 
-## SOP
+# Standard operation procedure:
 Here is an example of the procedure we followed to test it in our lab:
 
 **Setting up the computer:**
