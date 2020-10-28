@@ -8,7 +8,8 @@ Screen('FillRect', w, gray);
 DrawFormattedText(w, message, 'center', 'center',  text.Color);
 % Drawing the photodiode square to black to let the experimenter know where
 % to clip it
-drawPhotodiodBlock ('off')
+drawPhotodiodBlock(0)
+
 % Flipping the screen:
 Screen('Flip', w);
 end

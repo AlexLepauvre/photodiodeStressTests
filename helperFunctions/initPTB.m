@@ -1,7 +1,7 @@
 
 function initPTB(debug)
 %% OUT 
-global ScreenWidth ScreenHeight center w refRate gray
+global ScreenWidth ScreenHeight center w refRate gray text
 
 %% Setting up PTB
 % Here we call some default settings for setting up Psychtoolbox
@@ -26,7 +26,7 @@ Screen('Preference', 'TextRenderer', 1);
 
 % Opening a gray window:
 if debug
-    WINDOW_RESOLUTION = [10 10 1920/5 1080/5];
+    WINDOW_RESOLUTION = [10 10 1920/2 1080/2];
     [w, wRect] =  Screen('OpenWindow',screenNumber, gray,WINDOW_RESOLUTION);
 else
     % Opening a gray window fullscreen:
@@ -42,5 +42,16 @@ center          =  [ScreenWidth/2; ScreenHeight/2];
 hz = Screen('NominalFrameRate', w);
 disp(hz);
 refRate = hz.^(-1);
+
+%% Text parameters 
+% Setting the parameters for the visual aspect of the text:
+fontType = 'David'; % Font of the text
+fontSize = 50; % general text size
+fontColor = 0; % black;
+screenScaler = ScreenWidth/1920; % Setting screen scaler to adapt text size to different screen sizes
+Screen('TextFont',w, fontType); % Setting the font type
+Screen('TextStyle', w, 0); % Text style
+Screen('TextSize', w, round(fontSize*screenScaler)); % Text size
+text.Color = fontColor; %black
 
 end

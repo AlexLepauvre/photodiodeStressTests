@@ -21,7 +21,7 @@ function runPhotodiodeStressTest(LumDecrement, PhotodiodeSize, debug)
 %% Houskeeping:
 sca
 clc
-clear all
+clearvars -except LumDecrement PhotodiodeSize debug
 close all
 
 %% Setting things up:
@@ -36,7 +36,7 @@ if nargin == 3
 elseif nargin == 2
     debug = 0;
     DIOD_SIZE = PhotodiodeSize;
-elseif nargin == 1 
+elseif nargin == 1
     debug = 0;
     DIOD_SIZE = 200;
 elseif nargin == 0
@@ -45,7 +45,7 @@ elseif nargin == 0
     LumDecrement = 0.25;
 end
 
-% Computing values of the photodiode luminance according to the number of 
+% Computing values of the photodiode luminance according to the number of
 % requested increments coefficients:
 DIOD_ON_COLOUR = [];
 ctr= 1;
@@ -62,81 +62,88 @@ initPTB(debug)
 % Setting the messages to the experimenter:
 INTRO_MESSAGE = 'Welcome to the Photodiode stress test! \n Make sure that the photodiode is plugged in \n Make sure that the photodiode covers the photodiode square\n\n Press any key to proceed';
 
-% Setting number of flash iterations: 
+% Setting number of flash iterations:
 flashIterations = ceil(30/(refRate));
 
 % Creating and opening the file where the data will be saved:
 fileID = openLogFile();
 
-%% Starting experiment: 
+%% Starting experiment:
 % Showing the instructions:
 showMessage(INTRO_MESSAGE)
 KbWait(compKbDevice,3);
 
 %% Staring the test:
-% Looping through the difference luminance values for the photodiode:
-for i = 1:length(DIOD_ON_COLOUR)
-
-    % Setting the color of the photodiode for that iteration
-    diodeColor = DIOD_ON_COLOUR(end-(i-1));
-
-    %% Each frame flips:
-    % Starting by flipping every frame:
-    for ii = 1:flashIterations
-        % Turning the photodiode on
-        onset = showPhotodiodBlock(diodeColor);
-        % Saving the data to the log
-        logInfo(fileID, 'OneFrame', onset, ii, 'On')
-        % Then off
-        onset = showPhotodiodBlock(DIOD_OFF_COLOUR);
-        % Saving the data to the log
-        logInfo(fileID, 'OneFrame', onset, ii, 'Off')
-        % Rinse and repeat
+try
+    % Looping through the difference luminance values for the photodiode:
+    for i = 1:length(DIOD_ON_COLOUR)
+        
+        % Setting the color of the photodiode for that iteration
+        diodeColor = DIOD_ON_COLOUR(end-(i-1));
+        
+        %% Each frame flips:
+        % Starting by flipping every frame:
+        for ii = 1:flashIterations
+            % Turning the photodiode on
+            onset = showPhotodiodBlock(diodeColor);
+            % Saving the data to the log
+            logInfo(fileID, 'OneFrame', onset, ii, 'On')
+            % Then off
+            onset = showPhotodiodBlock(DIOD_OFF_COLOUR);
+            % Saving the data to the log
+            logInfo(fileID, 'OneFrame', onset, ii, 'Off')
+            % Rinse and repeat
+        end
+        
+        % To mark transition to the next flipping pattern, letting the
+        % photodiode off by pausing as is for 5 secs:
+        WaitSecs(5)
+        
+        %% Every second frames flips:
+        % Starting by flipping every second frames:
+        for ii = 1:flashIterations
+            % Turning the photodiode on
+            onset = showPhotodiodBlock(diodeColor);
+            showPhotodiodBlock(diodeColor);
+            logInfo(fileID, 'TwoFrames', onset, ii, 'On')
+            % Then off
+            onset = showPhotodiodBlock(DIOD_OFF_COLOUR);
+            showPhotodiodBlock(DIOD_OFF_COLOUR);
+            logInfo(fileID, 'TwoFrames', onset, ii, 'Off')
+            % Rinse and repeat
+        end
+        
+        % To mark transition to the next flipping pattern, letting the
+        % photodiode off by pausing as is for 5 secs:
+        WaitSecs(5)
+        
+        %% Every three frames flips:
+        % Starting by flipping every three frames:
+        for ii = 1:flashIterations
+            % Turning the photodiode on
+            onset = showPhotodiodBlock(diodeColor);
+            showPhotodiodBlock(diodeColor);
+            showPhotodiodBlock(diodeColor);
+            logInfo(fileID, 'ThreeFrames', onset, ii, 'On')
+            % Then off
+            onset = showPhotodiodBlock(DIOD_OFF_COLOUR);
+            showPhotodiodBlock(DIOD_OFF_COLOUR);
+            showPhotodiodBlock(DIOD_OFF_COLOUR);
+            logInfo(fileID, 'ThreeFrames', onset, ii, 'Off')
+            % Rinse and repeat
+        end
     end
     
-    % To mark transition to the next flipping pattern, letting the
-    % photodiode off by pausing as is for 5 secs:
-    WaitSecs(5)
-    
-    %% Every second frames flips:
-    % Starting by flipping every second frames:
-    for ii = 1:flashIterations
-        % Turning the photodiode on
-        onset = showPhotodiodBlock(diodeColor);
-        showPhotodiodBlock(diodeColor);
-        logInfo(fileID, 'TwoFrames', onset, ii, 'On')
-        % Then off
-        onset = showPhotodiodBlock(DIOD_OFF_COLOUR);
-        showPhotodiodBlock(DIOD_OFF_COLOUR);
-        logInfo(fileID, 'TwoFrames', onset, ii, 'Off')
-        % Rinse and repeat
-    end
-    
-    % To mark transition to the next flipping pattern, letting the
-    % photodiode off by pausing as is for 5 secs:
-    WaitSecs(5)
-    
-    %% Every three frames flips:
-    % Starting by flipping every three frames:
-    for ii = 1:flashIterations
-        % Turning the photodiode on
-        onset = showPhotodiodBlock(diodeColor);
-        showPhotodiodBlock(diodeColor);
-        showPhotodiodBlock(diodeColor);
-        logInfo(fileID, 'ThreeFrames', onset, ii, 'On')
-        % Then off
-        onset = showPhotodiodBlock(DIOD_OFF_COLOUR);
-        showPhotodiodBlock(DIOD_OFF_COLOUR);
-        showPhotodiodBlock(DIOD_OFF_COLOUR);
-        logInfo(fileID, 'ThreeFrames', onset, ii, 'Off')
-        % Rinse and repeat
-    end   
-end
-
-%% Terminating the experiment:
-% Closing PTB:
-sca
-% Closing the log file:
-fclose(fileID);
-
+    %% Terminating the experiment:
+    % Closing PTB:
+    sca
+    % Closing the log file:
+    fclose(fileID);
+catch ME % Catching potential errors
+    % Closing PTB:
+    sca
+    % Closing the log file:
+    fclose(fileID);
+    % Rethrowing whatever error occured
+    rethrow(ME)
 end
