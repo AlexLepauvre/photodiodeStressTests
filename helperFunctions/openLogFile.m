@@ -2,11 +2,14 @@ function fileID = openLogFile()
 % This function opens a csv log file to store the data collected during
 % the experiment:
 global formatSpec
+
+% Create file name
 Filename = sprintf('PhotodiodeStressTest%s.csv', datestr(now,'mm-dd-yyyy HH-MM'));
 
 % Checking if the data dir exists:
 dataDir = fullfile(pwd,'Data');
 if ~exist(dataDir, 'dir')
+    % Creating the data folder if it doesn't exist:
     mkdir(dataDir)
 end
 
