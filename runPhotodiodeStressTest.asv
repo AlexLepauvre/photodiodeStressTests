@@ -1,0 +1,53 @@
+function runPhotodiodeStressTest(LumDecrement, debug)
+% This function runs a photodiode stress test: the photodiode is flashed
+% decrementally fast, to see whether the photodiode can keep up with the
+% flashes. We start by flashing it every frame, then every second frame and
+% so on, to see where it starts to be able to keep up. Additionally, the
+% luminance of the flashed squared is decreased in a stepwise fashion to
+% see below which luminance the gain is too low to discriminate from noise
+% Author: Alex Lepauvre
+% Date: 28/10/2020
+
+%% Setting things up:
+global refRate compKbDevice
+addpath .\helperFunctions
+compKbDevice = -1;
+
+% Colors of the photodiode:
+DIOD_ON_COLOUR = [];
+ctr= 1;
+for i = LumDecrement:LumDecrement:1
+    DIOD_ON_COLOUR(ctr) = round(255*i); % Color of the photodiode when on
+end
+DIOD_OFF_COLOUR = 0;
+
+% Initializing PTB:
+initPTB(debug)
+
+% Setting the messages to the experimenter:
+INTRO_MESSAGE = 'Welcome to the Photodiode Stress test! \n Make sure that the photodiode is plugged in \n Make sure that the photodiode covers the photodiode square\n\n Press any key to proceed';
+
+% Setting number of flash iterations: 
+flashIterations = ceil(6000/refRate);
+
+%% Showing the instructions:
+showMessage(INTRO_MESSAGE)
+showPhotodiodBlock (DIOD_ON_COLOUR(end))
+KbWait(compKbDevice,3);
+
+%% Staring the test:
+% Looping through the 
+for i = 1:length(DIOD_ON_COLOUR)
+
+
+end
+
+
+
+
+
+
+
+
+
+
