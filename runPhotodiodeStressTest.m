@@ -22,7 +22,7 @@ function runPhotodiodeStressTest(flashIterations, LumDecrement, PhotodiodeSize, 
 %% Houskeeping:
 sca
 clc
-clearvars -except LumDecrement PhotodiodeSize debug
+clearvars -except flashIterations LumDecrement PhotodiodeSize debug
 close all
 
 %% Setting things up:
